@@ -2,20 +2,15 @@ from enum import Enum
 import keyboard
 
 class Movement(Enum):
-    ''' It defines the different moves'''
     DOWN = 1
     RIGHT = 2
     LEFT = 3
     ROTATE = 4
 
-
+# My tetris game will have a 10x10 screen so it will be represented by list called "screen".
+# The cells will be represented as arrays inside "screen".
+# (The number of arrays will the number of rows, 10 in this case)
 def tetris():
-    '''
-    My tetris game will have a 10x10 screen so it will be represented by list called "screen".
-    The cells will be represented as arrays inside "screen".
-    (The number of arrays will the number of rows, 10 in this case)
-    '''
-
     screen = [["⬛", "⬜", "⬜", "⬜", "⬜", "⬜", "⬜", "⬜", "⬜", "⬜"],
               ["⬛", "⬛", "⬛", "⬜", "⬜", "⬜", "⬜", "⬜", "⬜", "⬜"],
               ["⬜", "⬜", "⬜", "⬜", "⬜", "⬜", "⬜", "⬜", "⬜", "⬜"],
@@ -37,20 +32,22 @@ def tetris():
         if event.name == "esc":
             break
         elif event.event_type == keyboard.KEY_DOWN:
-            if event.name == "down":
+            if event.name == "flecha abajo":
                 (screen, rotation) = move_piece(screen, Movement.DOWN, rotation)
-            elif event.name == "right":
+            elif event.name == "flecha derecha":
                 (screen, rotation) = move_piece(screen, Movement.RIGHT, rotation)
-            elif event.name == "left":
+            elif event.name == "flecha izquierda":
                 (screen, rotation) = move_piece(screen, Movement.LEFT, rotation)
             elif event.name == "space":
                 (screen, rotation) = move_piece(screen, Movement.ROTATE, rotation)
 
 def move_piece(screen: list, movement: Movement, rotation: int) -> (list, int):
-
+    
+    # Creates a blank screen
     new_screen = [["⬜"] * 10 for _ in range(10)]
     
     rotation_item = 0
+    # The possible changes in position for the piece
     rotations = [[(1, 1), (0, 0), (-2, 0), (-1, -1)],
                  [(0, 1), (-1, 0), (0, -1), (1, -2)],
                  [(0, 2), (1, 1), (-1, 1), (-2, 0)],
@@ -58,6 +55,7 @@ def move_piece(screen: list, movement: Movement, rotation: int) -> (list, int):
     
     new_rotation = rotation
     
+    # It changes the index of the rotation (0 = 0 degrees // 3 = 270 degrees)
     if movement is Movement.ROTATE:
         new_rotation = 0 if rotation == 3 else rotation + 1
     
@@ -96,8 +94,7 @@ def move_piece(screen: list, movement: Movement, rotation: int) -> (list, int):
     return (new_screen, new_rotation)
 
 def print_screen(screen: list):
-    
-    print("\nPantalla Tetris:\n")
+    print("\nTetris Screen:\n")
     
     for row in screen:
         print("".join(map(str, row)))
