@@ -10,3 +10,5 @@ That repository contains a small exercise in which you have a piece of tetris an
 - Rotate
 
 While you control that the piece doesn't go out the dashboard.
+
+** Run on Windows
